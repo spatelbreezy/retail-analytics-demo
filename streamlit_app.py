@@ -34,7 +34,7 @@ st.title("Retail Analytics Dashboard")
 # Question 1
 if st.button("List Regular customers aged over 50 who spent more than $15,000"):
     #Take query & excute and post to streamlit dataframe
-    st.dataframe("Working #1")
+    st.dataframe("Working #1") #placeholder
 
 # Question 2
 if st.button("Top 10 suppliers by order picking accuracy"):
