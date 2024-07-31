@@ -47,19 +47,14 @@ queries = {
     "Rural and suburban stores with high shrinkage rates": """insert sql here?"""
 }
 
-# Create a button for each query
-for query_name, query_sql in queries.items():
-    if st.button(query_name):
-        if 'active_query' in st.session_state and st.session_state.active_query == query_name:
-            # If the same button is clicked again, clear the results
-            st.session_state.active_query = None
-            st.session_state.query_result = None
-        else:
-            # Execute the query and store the results
-            st.session_state.active_query = query_name
-            st.session_state.query_result = execute_query(query_sql)
+# Create a dropdown menu for queries
+selected_query = st.selectbox("Select a query", list(queries.keys()))
 
-# Display the results if a query is active
-if 'active_query' in st.session_state and st.session_state.active_query:
-    st.subheader(f"Results for: {st.session_state.active_query}")
-    st.dataframe(st.session_state.query_result)
+# Execute query and display results when a query is selected
+if selected_query != "Select a query":
+    query_sql = queries[selected_query]
+    result = execute_query(query_sql)
+    st.subheader(f"Results for: {selected_query}")
+    st.dataframe(result)
+else:
+    st.write("Please select a query from the dropdown menu.")
