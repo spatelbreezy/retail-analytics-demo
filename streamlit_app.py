@@ -34,50 +34,17 @@ st.title("Retail Analytics Dashboard")
 
 # Define queries
 queries = {
-    "Regular customers aged over 50 who spent more than $15,000": """
-    SELECT c.Customer_ID, c.Customer_Name, c.Age, c.Total_Spent
-    FROM customers c
-    WHERE c.Age > 50 AND c.Total_Spent > 15000 AND c.Loyalty_Status = 'Regular'
-    ORDER BY c.Total_Spent DESC
-    """,
+    "Regular customers aged over 50 who spent more than $15,000": """insert sql here?""",
 
-    "Top 10 suppliers by order picking accuracy": """
-    SELECT sm.Supplier_Name, sm.Supplier_ID, sm.Supplier_Performance_Evaluation, opf.Order_Picking_Accuracy
-    FROM supplierMetrics sm
-    JOIN orderPickingAndFulfillment opf ON sm.Supplier_ID = opf.Supplier_ID
-    ORDER BY opf.Order_Picking_Accuracy DESC
-    LIMIT 10
-    """,
+    "Top 10 suppliers by order picking accuracy": """insert sql here?""",
 
-    "Allocation strategies and safety stocks for products with lowest inventory turnover": """
-    SELECT p.Inventory_Allocation_Strategy, i.Safety_Stock_Levels
-    FROM promotionalAndMarketData p
-    JOIN inventoryMetrics i ON p.Product_ID = i.Product_ID
-    ORDER BY i.Inventory_Monthly_Turnover_Rate ASC
-    LIMIT 100
-    """,
+    "Allocation strategies and safety stocks for products with lowest inventory turnover": """insert sql here?""",
 
-    "Products with shrinkage rates higher than 4.9%": """
-    SELECT s.Product_ID, s.Shrinkage_Rate, s.Root_Cause_Analysis, s.Loss_Prevention_Measures
-    FROM shrinkageAndLossPrevention s
-    WHERE s.Shrinkage_Rate > 4.9
-    ORDER BY s.Shrinkage_Rate DESC
-    """,
+    "Products with shrinkage rates higher than 4.9%": """insert sql here?""",
 
-    "Loss prevention audit findings for high-shrinkage, low-efficiency stores": """
-    SELECT s.Store_ID, s.LossPreventionAudit_Findings
-    FROM shrinkageStores s
-    JOIN storeEfficiency se ON s.Store_ID = se.Store_ID
-    WHERE s.Shrinkage_Rate > 2 AND se.Sales_per_SquareFoot < 200
-    """,
+    "Loss prevention audit findings for high-shrinkage, low-efficiency stores": """insert sql here?""",
 
-    "Rural and suburban stores with high shrinkage rates": """
-    SELECT s.Store_ID, s.Store_Location_Type, s.Shrinkage_Rate
-    FROM shrinkageStores s
-    WHERE s.Store_Location_Type IN ('rural', 'suburban')
-    AND s.Shrinkage_Rate >= 3
-    ORDER BY s.Shrinkage_Rate DESC
-    """
+    "Rural and suburban stores with high shrinkage rates": """insert sql here?"""
 }
 
 # Create a button for each query
