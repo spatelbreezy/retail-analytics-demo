@@ -28,30 +28,71 @@ def execute_query(query):
     finally:
         conn.close()
 
+
 # Streamlit app
 st.title("Retail Analytics Dashboard")
 
-# Question 1
-if st.button("List Regular customers aged over 50 who spent more than $15,000"):
-    #Take query & excute and post to streamlit dataframe
-    st.dataframe("Working #1") #placeholder
+# Define queries
+queries = {
+    "Regular customers aged over 50 who spent more than $15,000": """
+    SELECT c.Customer_ID, c.Customer_Name, c.Age, c.Total_Spent
+    FROM customers c
+    WHERE c.Age > 50 AND c.Total_Spent > 15000 AND c.Loyalty_Status = 'Regular'
+    ORDER BY c.Total_Spent DESC
+    """,
 
-# Question 2
-if st.button("Top 10 suppliers by order picking accuracy"):
-    st.dataframe("Working #2")
+    "Top 10 suppliers by order picking accuracy": """
+    SELECT sm.Supplier_Name, sm.Supplier_ID, sm.Supplier_Performance_Evaluation, opf.Order_Picking_Accuracy
+    FROM supplierMetrics sm
+    JOIN orderPickingAndFulfillment opf ON sm.Supplier_ID = opf.Supplier_ID
+    ORDER BY opf.Order_Picking_Accuracy DESC
+    LIMIT 10
+    """,
 
-# Question 3
-if st.button("Allocation strategies and safety stocks for products with lowest inventory turnover"):
-    st.dataframe("Working #3")
+    "Allocation strategies and safety stocks for products with lowest inventory turnover": """
+    SELECT p.Inventory_Allocation_Strategy, i.Safety_Stock_Levels
+    FROM promotionalAndMarketData p
+    JOIN inventoryMetrics i ON p.Product_ID = i.Product_ID
+    ORDER BY i.Inventory_Monthly_Turnover_Rate ASC
+    LIMIT 100
+    """,
 
-# Question 4
-if st.button("Products with shrinkage rates higher than 4.9%"):
-    st.dataframe("Working #4")
+    "Products with shrinkage rates higher than 4.9%": """
+    SELECT s.Product_ID, s.Shrinkage_Rate, s.Root_Cause_Analysis, s.Loss_Prevention_Measures
+    FROM shrinkageAndLossPrevention s
+    WHERE s.Shrinkage_Rate > 4.9
+    ORDER BY s.Shrinkage_Rate DESC
+    """,
 
-# Question 5
-if st.button("Loss prevention audit findings for high-shrinkage, low-efficiency stores"):
-    st.dataframe("Working #5")
+    "Loss prevention audit findings for high-shrinkage, low-efficiency stores": """
+    SELECT s.Store_ID, s.LossPreventionAudit_Findings
+    FROM shrinkageStores s
+    JOIN storeEfficiency se ON s.Store_ID = se.Store_ID
+    WHERE s.Shrinkage_Rate > 2 AND se.Sales_per_SquareFoot < 200
+    """,
 
-# Question 6
-if st.button("Rural and suburban stores with high shrinkage rates"):
-    st.dataframe("Working #6")
+    "Rural and suburban stores with high shrinkage rates": """
+    SELECT s.Store_ID, s.Store_Location_Type, s.Shrinkage_Rate
+    FROM shrinkageStores s
+    WHERE s.Store_Location_Type IN ('rural', 'suburban')
+    AND s.Shrinkage_Rate >= 3
+    ORDER BY s.Shrinkage_Rate DESC
+    """
+}
+
+# Create a button for each query
+for query_name, query_sql in queries.items():
+    if st.button(query_name):
+        if 'active_query' in st.session_state and st.session_state.active_query == query_name:
+            # If the same button is clicked again, clear the results
+            st.session_state.active_query = None
+            st.session_state.query_result = None
+        else:
+            # Execute the query and store the results
+            st.session_state.active_query = query_name
+            st.session_state.query_result = execute_query(query_sql)
+
+# Display the results if a query is active
+if 'active_query' in st.session_state and st.session_state.active_query:
+    st.subheader(f"Results for: {st.session_state.active_query}")
+    st.dataframe(st.session_state.query_result)
