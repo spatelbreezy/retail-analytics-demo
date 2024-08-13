@@ -68,7 +68,7 @@ def execute_query(query):
         conn.close()
 
 
-st.subheader("yoyoy")
+st.subheader("North Riverside Park Mall, Store001")
 st.title("Store Ops App")
 
 # queries = {
