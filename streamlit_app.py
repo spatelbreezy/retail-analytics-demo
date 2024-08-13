@@ -37,23 +37,23 @@ DB_NAME = "claires_data"
 #     return response.choices[0].message.content
 
 
-def connect_to_db():
-    return pymysql.connect(
-        host=DB_HOST,
-        port=int(DB_PORT),
-        user=DB_USER,
-        password=DB_PASS,
-        db=DB_NAME
-    )
-
 # def connect_to_db():
 #     return pymysql.connect(
-#         host=os.getenv("DB_HOST"),
-#         port=int(os.getenv("DB_PORT")),
-#         user=os.getenv("DB_USER"),
-#         password=os.getenv("DB_PASS"),
-#         db=os.getenv("DB_NAME")
+#         host=DB_HOST,
+#         port=int(DB_PORT),
+#         user=DB_USER,
+#         password=DB_PASS,
+#         db=DB_NAME
 #     )
+
+def connect_to_db():
+    return pymysql.connect(
+        host=os.getenv("DB_HOST"),
+        port=int(os.getenv("DB_PORT")),
+        user=os.getenv("DB_USER"),
+        password=os.getenv("DB_PASS"),
+        db=os.getenv("DB_NAME")
+    )
 
 
 def execute_query(query):
