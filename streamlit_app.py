@@ -68,8 +68,8 @@ def execute_query(query):
         conn.close()
 
 
-st.subheader("Hey Store Manager!")
-st.title("Store Analytics Dashboard")
+st.subheader("North Riverside Park Mall, Store001")
+st.title("Store Ops App")
 
 # queries = {
 #     "Select a query": None,
